@@ -1,0 +1,205 @@
+Build a 3D bike racing game using HTML, CSS, JavaScript and Three.js 
+with Road, Buildings, AI Opponents, Obstacles, Player Controls and Fully Responsive Design.
+
+
+Create a polished 3D bike racing game in a single HTML file using Three.js (ES modules). Include a loading progress UI, race status overlay, touch controls, collision and opponent logic, restart functionality, and fallback support.
+
+Technologies:
+
+Use Three.js via latest ES module CDN.
+
+Load “scene.gltf” bike model with GLTFLoader and DRACOLoader (compressed).
+
+Tailwind CSS for styling—CDN link.
+
+FontAwesome for left/right buttons—CDN link.
+
+Native ES6+ JavaScript for structure.
+
+HTML Layout:
+
+<html lang="en"> with viewport meta for mobile.
+
+Tailwind and FontAwesome stylesheet links.
+
+Inline <style> for overlays, custom controls, canvas, fade animation.
+
+<body> includes:
+
+Loading overlay with percent.
+
+Scene container for Three.js <canvas>.
+
+Floating “Position” UI.
+
+Game-over overlay with restart button.
+
+Circular left/right control buttons (FontAwesome chevrons), responsive for desktops/mobiles.
+
+CSS Styling:
+
+Pure black background, no margins/scrolling.
+
+Translucent overlays for UI visibility.
+
+Control buttons: semi-transparent black circles, white chevrons, easily tappable.
+
+Loading overlay: full-screen, centered, fades out.
+
+Shake-keyframe CSS for collision shakes; inject on demand.
+
+Three.js Scene:
+
+Atmospheric fog (#87ceeb).
+
+PerspectiveCamera (75° FOV, auto aspect, near 0.1, far 2000), placed behind/above bike.
+
+WebGLRenderer (antialias, shadows, ACES Filmic tone mapping, exposure 1.0), full-window canvas.
+
+Append canvas to container.
+
+Lighting:
+
+Ambient, strong directional sunlight (shadows, midday feel), hemisphere (soft sky-to-ground), fill directional (soft shadow), warm point light (near bike), spotlight for drama.
+
+Balance intensities for realism/performance.
+
+Ground/Road:
+
+Large green plane for grass.
+
+Long road plane (width ~12, length ~800).
+
+Realistic materials (metalness/roughness).
+
+White dashed lines: many narrow planes, animate scroll backward.
+
+Skybox:
+
+Large static cube, tiled “uv grid” texture.
+
+Subtle rotation for dynamic sky.
+
+Scenery:
+
+Procedural cuboid buildings, random size/position/color, placed roadside, receive/cast shadows.
+
+Recycle as behind player for endless track.
+
+Obstacles:
+
+Multiple bright orange traffic cones (cone geometry), random lane placement, recycle after passing player, cast shadows.
+
+Player Bike Model:
+
+GLTFLoader (with DRACOLoader), load “scene.gltf”.
+
+Scale ~1.2x, ground position via bounding box.
+
+Set mesh shadows, main material to bright red (#f70707), tweak metalness/roughness.
+
+Fallback: colored cubes if model fail.
+
+Opponents:
+
+Clone bike model, assign unique colors, spread over 3 lanes ahead of player.
+
+Simple AI: random speeds, lane change cooldown, target lane.
+
+Shadows enabled, recycled ahead.
+
+Controls:
+
+Keyboard: Left/‘A’ and Right/‘D’ for movement.
+
+Touch: track pointer events on left/right buttons.
+
+Control flags for input, clamp within lane bounds.
+
+Bike tilts visually when moving.
+
+Animation Loop:
+
+Use requestAnimationFrame.
+
+Move road, lines, scenery, obstacles backward per speed.
+
+Recycle scene elements.
+
+Update opponent AI: lane, speed, position.
+
+Race position: dynamically compute how many ahead.
+
+Player: movement, tilt, spin-out effect.
+
+Camera follows player, smooth X offset.
+
+Run collision checks/player events.
+
+Render scene.
+
+Collision/Effects:
+
+Bounding box checks for player vs obstacle: spin-out, rotate 360°, reduce speed.
+
+Player vs opponent: camera shake, game-over, overlay.
+
+Inject shake CSS, prevent repeat triggers during spin-out.
+
+UI Updates:
+
+Position display: “Position: X/Y”, update live.
+
+Loading: fade out after assets load.
+
+Game over: show big text, restart button, overlay.
+
+Restart: reset all game states, reposition models, resume.
+
+Restart Functionality:
+
+Reset game status, reinitialize positions, cancel animations/flags, resume main loop.
+
+Responsive/Touch:
+
+UI/button resizing/positioning based on viewport width:
+
+Edge-adjacent for mobile, inset for desktop.
+
+Control buttons large/tappable, clear chevrons.
+
+Performance:
+
+Three.js LoadingManager for asset progress.
+
+Loading percent indicator.
+
+Optimize shadow map sizes/materials for static items.
+
+Minimize logic in animate loop.
+
+Code Organization:
+
+Modular functions:
+
+init(), createScenery(), createObstacles(), loadModels(), setupControls(), animate(), triggerSpinOut(), triggerCameraShake(), updatePositionDisplay(), restartGame().
+
+Inline comments—purpose, logic, variables/functions explained clearly.
+
+Descriptive variable naming, concise code blocks.
+
+Optional Enhancements:
+
+Outline: optional sounds (collisions, engine), crash/spin particle effects, start menu, difficulty, leaderboard, smarter AI, opponent speed boosts.
+
+Final Packaging:
+
+Everything in single HTML file, no external JS files, except CDN links.
+
+Ensure local server is required for GLTF (browser restrictions).
+
+Fallback colored cubes if bike model fails.
+
+Maintain formatting/indentation.
+
+Designed for desktop and mobile compatibility.
